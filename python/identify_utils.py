@@ -1,3 +1,9 @@
+"""
+    This file contains utility classes and functions for person re-identification
+    It combines kalman filter predictions with appearance embeddings
+    to robustly identify and track people across frames.
+"""
+
 from dataclasses import dataclass, field
 from collections import deque
 from typing import Deque, Tuple, Any, List, Optional
@@ -13,9 +19,9 @@ class Entity:
     state_vector_history: Deque[Tuple[float, ...]] = field(default_factory=lambda: deque(maxlen=MAX_ENTITY_MEMORY))
     resnet_embedding_history: Deque[Any] = field(default_factory=lambda: deque(maxlen=MAX_ENTITY_MEMORY))
     last_seen: int = 0
-    kalman_filter: Optional[Any] = None  # BBoxKalmanFilter (avoid circular import)
+    kalman_filter: Optional[Any] = None
     predicted_bbox: Optional[Tuple[float, float, float, float]] = None
-    missed_detections: int = 0  # Count frames without detection (for occlusion handling)
+    missed_detections: int = 0
     
     def add_state_vector(self, sv: Tuple[float, ...]) -> None:
         self.state_vector_history.append(sv)

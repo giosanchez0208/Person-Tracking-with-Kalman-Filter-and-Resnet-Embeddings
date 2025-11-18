@@ -1,5 +1,9 @@
+""" 
+    This file implements the model for generating embeddings using ResNet50.
+    The embeddings will be used for identifying and re-identifying people across frames.
+"""
+
 import cv2, numpy as np
-from ultralytics import YOLO
 import torch
 import torchvision.transforms as transforms
 from torchvision.models import resnet50, ResNet50_Weights
@@ -7,7 +11,6 @@ import sys
 import time
 
 STANDARD_SIZE = (224, 224)
-SEG_MODEL = YOLO("yolov8n-seg.pt")
 
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 EMBEDDING_MODEL = resnet50(weights=ResNet50_Weights.IMAGENET1K_V2)
@@ -20,7 +23,7 @@ TRANSFORM = transforms.Compose([
     transforms.ToPILImage(),
     transforms.Resize(STANDARD_SIZE),
     transforms.ToTensor(),
-    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]) # Using standard ImageNet mean and std
+    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 ])
 
 def take_cropping(frame, bbox):

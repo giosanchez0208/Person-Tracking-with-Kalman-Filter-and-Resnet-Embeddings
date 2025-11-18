@@ -1,19 +1,23 @@
+"""
+    This class will handle annotation of bounding boxes on frames.
+    annotate_bbox accepts a frame, a bounding box, and an optional label.
+    It draws the bounding box and label onto the frame in-place and returns the same frame object
+"""
+
 import cv2
 import zlib
 
-
 def annotate_bbox(frame, bbox, label=""):
-    """
-    Draw a bbox and label onto `frame` in-place and return the same frame object.
-
-    This avoids copying the full frame per-bbox which is expensive.
-    """
+    
+    # Draw a bbox and label onto `frame` in-place and return the same frame object.
+    # This avoids copying the full frame per-bbox which is expensive.
     out = frame  # operate in-place to avoid repeated heavy copies
     x1, y1, x2, y2 = map(int, bbox[:4])
     conf = bbox[4] if len(bbox) > 4 else 1.0
     id_text = label if isinstance(label, str) else f"{conf:.2f}"
 
     # Use a fast deterministic CRC32 hash rather than SHA256 for color generation
+    # This is to ensure unique IDs each iteration without the overhead of cryptographic hashing
     seed = zlib.crc32(id_text.encode('utf-8')) & 0xFFFFFF
     r, g, b = (seed >> 16) & 255, (seed >> 8) & 255, seed & 255
     color = (b, g, r)

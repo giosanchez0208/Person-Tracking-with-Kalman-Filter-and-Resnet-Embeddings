@@ -1,3 +1,8 @@
+"""
+Re-identify and track people across frames using a combination of
+appearance embeddings and Kalman filter predictions.
+"""
+
 from typing import Dict, List, Tuple, Optional
 import numpy as np
 import python.model as model
@@ -6,7 +11,7 @@ from python.kalman import BBoxKalmanFilter
 
 SIMILARITY_THRESHOLD = 0.20
 TTL_THRESHOLD = 1000
-OCCLUSION_TTL = 30  # More lenient TTL for occluded entities (Kalman keeps them alive)
+OCCLUSION_TTL = 30 
 VERBOSE_LOGGING = False
 
 memory = Memory()
@@ -40,7 +45,7 @@ def identify(frame, curr_bboxes, next_bboxes):
         except Exception as e:
             embedding = None
         detections.append((bbox, embedding))
-    
+
     # Global assignment: Find optimal detection-entity pairing
     matches, unmatched_detections, unmatched_entities = match_detections_to_entities(
         detections, memory.curr_entities, SIMILARITY_THRESHOLD, VERBOSE_LOGGING
@@ -98,8 +103,7 @@ def identify(frame, curr_bboxes, next_bboxes):
     
     # Step 6: CLEANUP - Remove truly inactive entities
     old_count = len(memory.curr_entities)
-    
-    # Use different TTL based on whether entity has Kalman tracking
+
     memory.curr_entities = [
         entity for entity in memory.curr_entities
         if entity.last_seen < (OCCLUSION_TTL if entity.is_tracked() else TTL_THRESHOLD)

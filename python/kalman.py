@@ -1,3 +1,8 @@
+"""
+    This file implements a Kalman filter for tracking bounding boxes in video frames.
+    It will be used to predict and update the positions of detected people across frames.
+"""
+
 import numpy as np
 from scipy.linalg import solve, LinAlgError
 
@@ -7,9 +12,10 @@ def create_state_vector(bbox):
 
     x1, y1, x2, y2 = bbox
 
-class BBoxKalmanFilter:    # zero velocity
+class BBoxKalmanFilter:
 
-    """    dx1, dy1, dx2, dy2 = 0.0, 0.0, 0.0, 0.0
+    """
+    dx1, dy1, dx2, dy2 = 0.0, 0.0, 0.0, 0.0
 
     Kalman filter for tracking full bounding box (x1, y1, x2, y2) with velocities.
     state_vector = np.array([x1, y1, x2, y2, dx1, dy1, dx2, dy2], dtype=float)
