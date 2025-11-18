@@ -3,6 +3,7 @@ from ultralytics import YOLO
 MODEL_BBOX = "model/yolov11n.pt"
 MODEL_CONF_THRES = 0.60
 DETECTED_CLASS = 0 # person class in COCO
+
 model = YOLO(MODEL_BBOX, verbose=False)
     
 def detect_people_bboxes(image):
