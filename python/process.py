@@ -1,3 +1,8 @@
+""" 
+    This file manages the playback processing pipeline.
+    It allows setting a processing function (e.g., tracking pipeline) to be applied to each frame.
+"""
+
 from python.tracking_pipeline import tracking_pipeline
 from typing import Optional, Callable
 

@@ -1,3 +1,8 @@
+"""
+    This class manages camera or video input, including playback control and window display.
+    Just like camera playback, it allows parsing videos simulating real-time camera feed.
+"""
+
 import time
 import cv2
 from collections import deque
@@ -13,7 +18,7 @@ class CameraManager:
         self.video_path = video_path
         self.camera_index = camera_index
         self.window_name = window_name
-        self.adaptive_scaling = adaptive_scaling  # NEW PARAMETER
+        self.adaptive_scaling = adaptive_scaling
 
         if (not self.use_camera) and (self.video_path is not None):
             self.cap = cv2.VideoCapture(self.video_path)
@@ -113,7 +118,7 @@ class CameraManager:
         return self._downscale_if_needed(frame)
 
     def display_frame(self, frame=None):
-        """Display frame with centered window"""
+        # Display frame with centered window
         if frame is None:
             frame = self.get_frame()
         
