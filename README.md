@@ -77,8 +77,11 @@ This is the clearest support that the **tracking + Re-ID pipeline works well whe
 - FPS is limited due to per-frame embedding computation
 
 **Core takeaway**  
-➡ The Kalman + ResNet-based tracking pipeline is effective at **identity stability and re-identification**, but overall performance is detection-limited.  
-➡ When it sees, it tracks.
+- The Kalman + ResNet-based tracking pipeline is effective at **identity stability and re-identification**, but overall performance is detection-limited.  
+
+## Discussion
+**Why recall is low**
+The detector is the current bottleneck. YOLO-Nano misses many valid person detections, especially at distance or under occlusion. However, when detections are available, the Kalman + ResNet pipeline tracks identities reliably.
 
 ---
 ## How to run
